@@ -4,7 +4,7 @@ const bodyParser = require('body-parser');
 const db = require('./db');
 const app = express();
 
-const expressionRoutes = require('../routes/expressionRoutes');
+const expressionsRouter = require('../routes/expressionRoutes')
 
 // Configuration des middlewares
 app.use(bodyParser.json())
@@ -21,6 +21,6 @@ app.get('/test-connection', (req, res) => {
     })
 })
 
-app.use('/api', expressionRoutes);
+app.use('/expressions', expressionsRouter)
 
 module.exports = app
