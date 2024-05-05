@@ -1,6 +1,6 @@
 const express = require('express')
 const router = express.Router()
-const { getAllExpressions } = require('../controllers/expressionController')
+const { getAllExpressions } = require('../controllers/expressionsController')
 
 router.get('/expressions', getAllExpressions)
 

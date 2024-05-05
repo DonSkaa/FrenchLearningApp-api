@@ -1,26 +1,23 @@
+require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const bodyParser = require('body-parser');
 const db = require('./db');
 const app = express();
+const usersRouter = require('./routes/usersRoutes')
+const expressionsRouter = require('./routes/expressionsRoutes')
 
-const expressionsRouter = require('../routes/expressionRoutes')
+
+// const usersRouter = require('./routes/expressionsRoutes')
+
 
 // Configuration des middlewares
+
 app.use(bodyParser.json())
 app.use(cors())
 
-// Définition des routes
-app.get('/test-connection', (req, res) => {
-    db.query('SELECT 1', (err, results) => {
-        if (err) {
-            res.status(500).send('Database connection failed')
-        } else {
-            res.send('Database connection successful')
-        }
-    })
-})
+app.use('/', usersRouter)
+app.use('/', expressionsRouter)
 
-app.use('/expressions', expressionsRouter)
 
 module.exports = app
