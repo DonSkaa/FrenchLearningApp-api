@@ -1,8 +1,5 @@
-// const { DataTypes } = require('sequelize')
-// const sequelize = require('./db')
-
 module.exports = (sequelize, DataTypes) => {
-    const Expression = sequelize.define('Expression', {
+    const Expression = sequelize.define('expressions', {
         id: {
             type: DataTypes.INTEGER,
             primaryKey: true,
@@ -16,10 +13,13 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.STRING,
             allowNull: false
         },
+        last_used_date: {
+            type: DataTypes.DATE,
+            allowNull: true
+        },
     }, {
         tableName: 'expressions',
-        timestamps: true
+        timestamps: false
     });
-
     return Expression
 }

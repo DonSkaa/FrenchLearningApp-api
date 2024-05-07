@@ -16,16 +16,12 @@ const signup = async (req, res) => {
 
         const user = await User.create(data)
 
-        console.log(user);
-
         if (user) {
             let token = jwt.sign({ id: user.id }, process.env.SECRET_KEY, {
                 expiresIn: 1 * 24 * 60 * 60 * 1000,
             })
 
             res.cookie("jwt", token, { maxAge: 1 * 24 * 60 * 60, httpOnly: true })
-            console.log("user", JSON.stringify(user, null, 2))
-            console.log(token)
 
             return res.status(201).send(user)
         } else {
@@ -50,7 +46,6 @@ const login = async (req, res) => {
             const isSame = await bcrypt.compare(password, user.password)
 
             if (isSame) {
-                console.log(process.env.SECRET_KEY);
                 let token = jwt.sign({ id: user.id }, process.env.SECRET_KEY, {
                     expiresIn: 1 * 24 * 60 * 60 * 1000,
                 })
@@ -61,7 +56,6 @@ const login = async (req, res) => {
 
                 res.cookie("jwt", token, { maxAge: 1 * 24 * 60 * 60, httpOnly: true })
                 console.log("user", JSON.stringify(user, null, 2))
-                console.log(token)
                 return res.status(201).send({
                     ...user, token: {
                         value: token,
