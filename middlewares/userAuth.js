@@ -1,6 +1,6 @@
-const express = require("express");
 const db = require("../models");
 const User = db.users;
+const jwt = require("jsonwebtoken");
 
 const saveUser = async (req, res, next) => {
     try {
@@ -29,6 +29,25 @@ const saveUser = async (req, res, next) => {
     }
 }
 
+const authenticateToken = (req, res, next) => {
+    console.log(req.cookies);
+    const token = req.cookies.jwt;
+
+    if (!token) {
+        return res.status(401).send({ message: 'Token is missing' })
+    }
+
+    jwt.verify(token, process.env.SECRET_KEY, (err, decoded) => {
+        if (err) {
+            return res.status(403).send({ message: 'Token is invalid' });
+        }
+
+        req.user = decoded;
+        next()
+    })
+}
+
 module.exports = {
     saveUser,
+    authenticateToken,
 }

@@ -4,7 +4,7 @@ const sequelize = new Sequelize('frenchlearningapp', 'root', 'root', {
     host: '127.0.0.1',
     port: 3306, // Port par défaut pour MySQL
     dialect: 'mysql',
-    logging: false,
+    logging: console.log
 })
 
 sequelize.authenticate().then(() => {

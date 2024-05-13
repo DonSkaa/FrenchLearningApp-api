@@ -29,31 +29,30 @@ const getDayExpression = async (req, res) => {
 
         if (todaysExpression) {
             return res.status(200).json({ data: todaysExpression })
+        } else {
+            const expression = await Expression.findOne({
+                order: [['last_used_date', 'ASC']],
+                where: {
+                    [Op.or]: [
+                        { last_used_date: null },
+                        { last_used_date: { [Op.ne]: today } },
+                    ],
+                },
+                raw: true,
+            })
+
+            if (!expression) {
+                return res.status(204).send()
+            }
+
+            if (!expression.last_used_date) {
+                await Expression.update(
+                    { last_used_date: today },
+                    { where: { id: expression.id, last_used_date: { [Op.is]: null } } }
+                )
+            }
+            return res.status(200).json({ data: expression })
         }
-
-        const expression = await Expression.findOne({
-            order: [['last_used_date', 'ASC']],
-            where: {
-                [Op.or]: [
-                    { last_used_date: null },
-                    { last_used_date: { [Op.ne]: today } },
-                ],
-            },
-            raw: true,
-        })
-
-        if (!expression) {
-            return res.status(204).send()
-        }
-
-        if (!expression.last_used_date) {
-            await Expression.update(
-                { last_used_date: today },
-                { where: { id: expression.id, last_used_date: { [Op.is]: null } } }
-            )
-        }
-
-        return res.status(200).json({ data: expression })
 
     } catch (error) {
         console.error("Error in getDayExpression:", error)
