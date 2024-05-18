@@ -56,9 +56,13 @@ const login = async (req, res) => {
 
                 res.cookie("jwt", token, { maxAge: 1 * 24 * 60 * 60, httpOnly: true })
 
+                const userDataWithMeta = await user.getData()
+
+                console.log(userDataWithMeta);
+
                 return res.status(201).send(
                     {
-                        ...user,
+                        ...userDataWithMeta,
                         token: {
                             value: token,
                             expiresIn: expirationTimestamp
