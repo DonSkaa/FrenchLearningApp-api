@@ -13,6 +13,10 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.STRING,
             allowNull: false
         },
+        deck_ids: {
+            type: DataTypes.ARRAY(DataTypes.INTEGER),
+            allowNull: false,
+        }
     }, {
         tableName: 'user_programs',
         timestamps: false

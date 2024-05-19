@@ -1,13 +1,33 @@
 const db = require("../models")
+const { Op } = require("sequelize")
 
-const UserProgram = db.UserProgram
+const UserPrograms = db.UserPrograms
 
-const getUserPrograms = async (req, res) => {
+const getCurrentUserProgram = async (req, res) => {
+
+    let userId = req.query.user_id
+
+    if (!userId) {
+        return res.status(400).json({ error: 'User ID is required' })
+    }
+
     try {
-        const userPrograms = await UserProgram.findOne({ where: { id: req.params.id } })
+        const today = new Date()
 
-        if (userPrograms) {
-            return res.status(200).json({ data: userPrograms })
+        const currentPrograms = await UserPrograms.findOne({
+            where: {
+                user_id: userId,
+                start_date: {
+                    [Op.lte]: today,
+                },
+                end_date: {
+                    [Op.gte]: today,
+                },
+            },
+        })
+
+        if (currentPrograms) {
+            return res.status(200).json({ data: currentPrograms })
         } else {
             return res.status(204).send()
         }
@@ -18,5 +38,5 @@ const getUserPrograms = async (req, res) => {
 }
 
 module.exports = {
-    getUserPrograms,
+    getCurrentUserProgram,
 }

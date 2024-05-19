@@ -3,9 +3,9 @@ const router = express.Router()
 const userAuth = require('../middlewares/userAuth')
 
 const {
-    getUserPrograms,
-} = require('../controllers/userPrograms')
+    getCurrentUserProgram,
+} = require('../controllers/userProgramsController')
 
-router.get('/user-programs', userAuth.authenticateToken, getUserPrograms)
+router.get('/user-program', userAuth.authenticateToken, getCurrentUserProgram)
 
 module.exports = router
