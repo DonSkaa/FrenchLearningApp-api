@@ -2,7 +2,7 @@ const bcrypt = require("bcrypt");
 const db = require("../models");
 const jwt = require("jsonwebtoken");
 
-const User = db.users
+const User = db.User
 
 const signup = async (req, res) => {
     try {
@@ -42,6 +42,7 @@ const login = async (req, res) => {
             }
         })
 
+
         if (user) {
             const isSame = await bcrypt.compare(password, user.password)
 
@@ -57,8 +58,6 @@ const login = async (req, res) => {
                 res.cookie("jwt", token, { maxAge: 1 * 24 * 60 * 60, httpOnly: true })
 
                 const userDataWithMeta = await user.getData()
-
-                console.log(userDataWithMeta);
 
                 return res.status(201).send(
                     {

@@ -1,5 +1,5 @@
 module.exports = (sequelize, DataTypes) => {
-    const Expression = sequelize.define('expressions', {
+    const Expression = sequelize.define('Expression', {
         id: {
             type: DataTypes.INTEGER,
             primaryKey: true,
@@ -20,6 +20,6 @@ module.exports = (sequelize, DataTypes) => {
     }, {
         tableName: 'expressions',
         timestamps: false
-    });
+    })
     return Expression
 }

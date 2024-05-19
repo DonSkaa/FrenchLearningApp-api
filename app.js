@@ -6,6 +6,7 @@ const cookieParser = require('cookie-parser')
 const app = express()
 const usersRouter = require('./routes/usersRoutes')
 const expressionsRouter = require('./routes/expressionsRoutes')
+const eventsRouter = require('./routes/eventsRoutes')
 
 // const usersRouter = require('./routes/expressionsRoutes')
 
@@ -21,6 +22,7 @@ app.use(cookieParser())
 
 app.use('/', usersRouter)
 app.use('/', expressionsRouter)
+app.use('/', eventsRouter)
 
 
 module.exports = app

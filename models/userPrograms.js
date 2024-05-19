@@ -1,5 +1,5 @@
 module.exports = (sequelize, DataTypes) => {
-    const userPrograms = sequelize.define('user_programs', {
+    const UserPrograms = sequelize.define('UserPrograms', {
         id: {
             type: DataTypes.INTEGER,
             primaryKey: true,
@@ -13,17 +13,21 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.STRING,
             allowNull: false
         },
-        user_id: {
-            type: DataTypes.INTEGER,
-            allowNull: false,
-        },
-        program_id: {
-            type: DataTypes.INTEGER,
-            allowNull: false,
-        }
     }, {
         tableName: 'user_programs',
         timestamps: false
-    });
-    return userPrograms
+    })
+
+    UserPrograms.associate = function (models) {
+        UserPrograms.belongsTo(models.User, {
+            foreignKey: 'user_id',
+            as: 'user'
+        })
+        UserPrograms.belongsTo(models.Program, {
+            foreignKey: 'program_id',
+            as: 'program'
+        })
+    }
+
+    return UserPrograms
 }

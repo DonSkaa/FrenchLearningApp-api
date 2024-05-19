@@ -2,7 +2,7 @@ const { format } = require('date-fns')
 const { Op } = require('sequelize')
 const db = require("../models")
 
-const Expression = db.expressions
+const Expression = db.Expression
 
 const getAllExpressions = async (req, res) => {
     try {

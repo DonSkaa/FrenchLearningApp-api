@@ -1,6 +1,6 @@
 const db = require("../models")
 
-const UserProgram = db.user_programs
+const UserProgram = db.UserProgram
 
 const getUserPrograms = async (req, res) => {
     try {
