@@ -6,6 +6,6 @@ const {
     getEventsByUserId
 } = require('../controllers/eventsController')
 
-router.get('/events', userAuth.authenticateToken, getEventsByUserId)
+router.get('/api/events', userAuth.authenticateToken, getEventsByUserId)
 
 module.exports = router

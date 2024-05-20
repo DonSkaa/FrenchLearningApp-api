@@ -7,7 +7,7 @@ const {
     getDayExpression
 } = require('../controllers/expressionsController')
 
-router.get('/expressions', getAllExpressions)
-router.get('/day-expression', userAuth.authenticateToken, getDayExpression)
+router.get('/api/expressions', getAllExpressions)
+router.get('/api/day-expression', userAuth.authenticateToken, getDayExpression)
 
 module.exports = router

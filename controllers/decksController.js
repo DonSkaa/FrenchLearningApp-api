@@ -19,8 +19,12 @@ const getDecksByIds = async (req, res) => {
             },
         })
 
-        if (decks.length > 0) {
-            return res.status(200).json({ data: decks })
+        const decksWithCards = await Promise.all(decks.map(async deck => {
+            return await deck.getData()
+        }))
+
+        if (decksWithCards.length > 0) {
+            return res.status(200).json({ data: decksWithCards })
         } else {
             return res.status(204).send()
         }

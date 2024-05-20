@@ -20,16 +20,6 @@ const db = {}
 db.Sequelize = Sequelize
 db.sequelize = sequelize
 
-// db.userMeta = require('./userMeta')(sequelize, DataTypes)
-// db.user = require('./user')(sequelize, DataTypes)
-// db.expression = require('./expression')(sequelize, DataTypes)
-// db.card = require('./card')(sequelize, DataTypes)
-// db.cardsToDecks = require('./cardsToDecks')(sequelize, DataTypes)
-// db.deck = require('./deck')(sequelize, DataTypes)
-// db.event = require('./event')(sequelize, DataTypes)
-// db.program = require('./program')(sequelize, DataTypes)
-// db.userPrograms = require('./userPrograms')(sequelize, DataTypes)
-
 fs
     .readdirSync(__dirname)
     .filter(file => {

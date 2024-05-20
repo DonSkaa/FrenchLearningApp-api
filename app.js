@@ -9,6 +9,7 @@ const expressionsRouter = require('./routes/expressionsRoutes')
 const eventsRouter = require('./routes/eventsRoutes')
 const userProgramsRouter = require('./routes/userProgramsRoutes')
 const decksRouter = require('./routes/decksRoutes')
+const { authenticateToken } = require('./middlewares/userAuth')
 
 // const usersRouter = require('./routes/expressionsRoutes')
 
@@ -21,6 +22,7 @@ const corsOptions = {
 app.use(cors(corsOptions))
 app.use(bodyParser.json())
 app.use(cookieParser())
+app.use(authenticateToken)
 
 app.use('/', usersRouter)
 app.use('/', expressionsRouter)

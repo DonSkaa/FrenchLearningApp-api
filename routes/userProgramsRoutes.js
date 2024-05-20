@@ -6,6 +6,6 @@ const {
     getCurrentUserProgram,
 } = require('../controllers/userProgramsController')
 
-router.get('/user-program', userAuth.authenticateToken, getCurrentUserProgram)
+router.get('/api/user-program', userAuth.authenticateToken, getCurrentUserProgram)
 
 module.exports = router

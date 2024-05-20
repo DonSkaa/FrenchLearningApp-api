@@ -6,6 +6,6 @@ const {
     getDecksByIds
 } = require('../controllers/decksController')
 
-router.get('/decks', userAuth.authenticateToken, getDecksByIds)
+router.get('/api/decks', userAuth.authenticateToken, getDecksByIds)
 
 module.exports = router

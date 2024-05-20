@@ -1,4 +1,5 @@
 const app = require('./app')
+const { authenticateToken } = require('./middlewares/userAuth')
 
 const PORT = process.env.PORT || 4000
 

@@ -33,7 +33,8 @@ const authenticateToken = (req, res, next) => {
     const token = req.cookies.jwt
 
     if (!token) {
-        return res.status(401).send({ message: 'Token is missing' })
+        next()
+        return
     }
 
     jwt.verify(token, process.env.SECRET_KEY, (err, decoded) => {
