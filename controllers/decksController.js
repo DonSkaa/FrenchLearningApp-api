@@ -4,6 +4,7 @@ const { Op } = require("sequelize")
 const Deck = db.Deck
 
 const getDecksByIds = async (req, res) => {
+
     const deck_ids = req.query.deck_ids
 
     if (!deck_ids || !Array.isArray(deck_ids)) {

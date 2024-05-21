@@ -42,7 +42,18 @@ const authenticateToken = (req, res, next) => {
             return res.status(403).send({ message: 'Token is invalid' })
         }
 
-        req.user = decoded
+        if (decoded) {
+            (async function () {
+                const user = await User.findOne({
+                    where: {
+                        id: decoded.id
+                    },
+                    raw: true,
+                })
+
+                req.user = user
+            })()
+        }
         next()
     })
 }

@@ -38,8 +38,14 @@ module.exports = (sequelize, DataTypes) => {
                 raw: true,
             })
 
+            const enrichedCards = await Promise.all(cards.map(async card => {
+                const enrichedCard = await Card.findByPk(card.id)
+                return await enrichedCard.getData()
+            }))
+
             const formatedDeck = {
-                ...this.dataValues, cards: cards
+                ...this.dataValues,
+                cards: enrichedCards
             }
             return formatedDeck
 

@@ -17,5 +17,27 @@ module.exports = (sequelize, DataTypes) => {
         tableName: 'cards',
         timestamps: false
     })
+
+    Card.prototype.getData = async function () {
+        try {
+            const db = require('.')
+            const UserMeta = db.UserMeta
+
+            const userMetas = await UserMeta.findOne({
+                where: { card_id: this.id },
+                raw: true,
+            })
+
+            return {
+                ...this.dataValues,
+                user_meta: userMetas
+            }
+
+        } catch (error) {
+            console.log(error)
+            throw new Error(error.message)
+        }
+    }
+
     return Card
 }

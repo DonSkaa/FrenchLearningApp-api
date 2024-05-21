@@ -33,20 +33,11 @@ module.exports = (sequelize, DataTypes) => {
 
     User.prototype.getData = async function () {
         try {
-            const db = require('.')
-            const UserMeta = db.UserMeta
-
-            const userMeta = await UserMeta.findAll({
-                where: { user_id: this.id },
-                raw: true,
-            })
-
             const formatedUser = {
                 id: this.dataValues.id,
                 email: this.dataValues.email,
                 name: this.dataValues.name,
                 user_programs_id: this.dataValues.user_programs_id,
-                user_metas: userMeta,
             }
 
             return formatedUser
