@@ -60,7 +60,6 @@ const updateUserMeta = async (req, res) => {
     }
 }
 
-
 module.exports = {
     getUserMetas,
     updateUserMeta

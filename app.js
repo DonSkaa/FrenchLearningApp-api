@@ -12,8 +12,6 @@ const decksRouter = require('./routes/decksRoutes')
 const userMetaRouter = require('./routes/userMetaRoutes')
 const { authenticateToken } = require('./middlewares/userAuth')
 
-// const usersRouter = require('./routes/expressionsRoutes')
-
 const corsOptions = {
     origin: 'http://localhost:3000',
     credentials: true,

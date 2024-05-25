@@ -42,7 +42,6 @@ const login = async (req, res) => {
             }
         })
 
-
         if (user) {
             const isSame = await bcrypt.compare(password, user.password)
 
@@ -80,6 +79,8 @@ const login = async (req, res) => {
 }
 
 const user = (req, res) => {
+
+    console.log('gladouille', req.user)
 
     const user = req.user
 

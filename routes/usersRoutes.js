@@ -8,6 +8,6 @@ const router = express.Router()
 
 router.post('/api/signup', userAuth.saveUser, signup)
 router.post('/api/login', login)
-router.get('/api/user', user)
+router.get('/api/user', userAuth.authenticateToken, user)
 
 module.exports = router

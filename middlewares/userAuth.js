@@ -30,6 +30,7 @@ const saveUser = async (req, res, next) => {
 }
 
 const authenticateToken = (req, res, next) => {
+
     const token = req.cookies.jwt
 
     if (!token) {

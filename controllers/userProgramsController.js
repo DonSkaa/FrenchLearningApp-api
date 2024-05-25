@@ -27,8 +27,10 @@ const getCurrentUserProgram = async (req, res) => {
         })
 
         if (currentPrograms) {
+            console.log(currentPrograms);
             return res.status(200).json({ data: currentPrograms })
         } else {
+            console.log(currentPrograms);
             return res.status(204).send()
         }
     } catch (error) {

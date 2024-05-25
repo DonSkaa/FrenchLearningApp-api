@@ -14,7 +14,7 @@ module.exports = (sequelize, DataTypes) => {
             allowNull: false
         },
         deck_ids: {
-            type: DataTypes.ARRAY(DataTypes.INTEGER),
+            type: DataTypes.JSON,
             allowNull: false,
         }
     }, {
