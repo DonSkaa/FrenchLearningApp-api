@@ -6,14 +6,14 @@ const User = db.User
 
 const signup = async (req, res) => {
     try {
-        const { name, email, password, userProgramId } = req.body
+        const { name, type, email, password, teacher_id } = req.body
         const data = {
             name,
+            type,
             email,
             password: await bcrypt.hash(password, 10),
-            user_program_id: userProgramId,
+            teacher_id: type === "teacher" ? null : teacher_id
         }
-
         const user = await User.create(data)
 
         if (user) {
@@ -79,11 +79,7 @@ const login = async (req, res) => {
 }
 
 const user = (req, res) => {
-
-    console.log('gladouille', req.user)
-
     const user = req.user
-
     if (!user) {
         return res.status(401).send("Unauthorized")
     } else {
@@ -91,8 +87,34 @@ const user = (req, res) => {
     }
 }
 
+const getCurrentStudents = async (req, res) => {
+
+    const teacher_id = req.query.teacher_id
+
+    if (!teacher_id) {
+        return res.status(400).json({ error: 'teacher_id is required' })
+    }
+
+    try {
+        const currentStudents = await User.findAll({
+            where: {
+                teacher_id: teacher_id,
+            },
+        })
+
+        if (currentStudents.length > 0) {
+            return res.status(200).json({ data: currentStudents })
+        }
+    } catch (error) {
+        console.error("Error in getCurrentStudents:", error)
+        return res.status(500).json({ error: 'Erreur lors de la récupération des currentStudents.' })
+    }
+}
+
+
 module.exports = {
     signup,
     login,
     user,
+    getCurrentStudents,
 }

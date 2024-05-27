@@ -8,6 +8,6 @@ const {
 } = require('../controllers/expressionsController')
 
 router.get('/api/expressions', getAllExpressions)
-router.get('/api/day-expression', userAuth.authenticateToken, getDayExpression)
+router.get('/api/day-expression', getDayExpression)
 
 module.exports = router

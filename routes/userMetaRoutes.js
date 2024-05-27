@@ -7,7 +7,7 @@ const {
     updateUserMeta
 } = require('../controllers/userMetaController')
 
-router.get('/api/user-metas', userAuth.authenticateToken, getUserMetas)
-router.put('/api/user-meta', userAuth.authenticateToken, updateUserMeta)
+router.get('/api/user-metas', getUserMetas)
+router.put('/api/user-meta', updateUserMeta)
 
 module.exports = router

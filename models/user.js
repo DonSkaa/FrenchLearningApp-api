@@ -5,6 +5,10 @@ module.exports = (sequelize, DataTypes) => {
             primaryKey: true,
             autoIncrement: true
         },
+        type: {
+            type: DataTypes.STRING,
+            allowNull: false
+        },
         email: {
             type: DataTypes.STRING,
             unique: true,
@@ -19,6 +23,10 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.STRING,
             allowNull: false
         },
+        teacher_id: {
+            type: DataTypes.INTEGER,
+            allowNull: true
+        }
     }, {
         tableName: 'user',
         timestamps: true
@@ -35,9 +43,11 @@ module.exports = (sequelize, DataTypes) => {
         try {
             const formatedUser = {
                 id: this.dataValues.id,
+                type: this.dataValues.type,
                 email: this.dataValues.email,
                 name: this.dataValues.name,
                 user_programs_id: this.dataValues.user_programs_id,
+                teacher_id: this.dataValues.teacher_id
             }
 
             return formatedUser
