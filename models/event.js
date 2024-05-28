@@ -29,6 +29,10 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.STRING,
             allowNull: false
         },
+        teacher_id: {
+            type: DataTypes.INTEGER,
+            allowNull: false
+        },
     }, {
         tableName: 'events',
         timestamps: false

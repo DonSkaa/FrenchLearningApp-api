@@ -3,9 +3,11 @@ const router = express.Router()
 const userAuth = require('../middlewares/userAuth')
 
 const {
-    getEventsByUserId
+    getEvents,
+    addEvent,
 } = require('../controllers/eventsController')
 
-router.get('/api/events', getEventsByUserId)
+router.get('/api/events', getEvents)
+router.post('/api/event', addEvent)
 
 module.exports = router

@@ -23,7 +23,15 @@ const signup = async (req, res) => {
 
             res.cookie("jwt", token, { maxAge: 1 * 24 * 60 * 60, httpOnly: true })
 
-            return res.status(201).send(user)
+            const formatedUser = {
+                id: user.id,
+                type: user.type,
+                email: user.email,
+                name: user.name,
+                user_programs_id: user.user_programs_id,
+                teacher_id: user.teacher_id
+            }
+            return res.status(201).send(formatedUser)
         } else {
             return res.status(409).send("Details are not correct")
         }
