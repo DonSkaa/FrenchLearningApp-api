@@ -45,5 +45,29 @@ module.exports = (sequelize, DataTypes) => {
         })
     }
 
+    Event.prototype.getData = async function () {
+        try {
+            const db = require('.')
+            const User = db.User
+            const studentId = this.dataValues.user_id
+
+            const user = await User.findOne({
+                where: { id: studentId },
+                raw: true,
+            })
+
+            const formatedUser = {
+                ...this.dataValues,
+                user: user
+            }
+
+            return formatedUser
+
+        } catch (error) {
+            console.log(error)
+            throw new Error(error.message)
+        }
+    }
+
     return Event
 }

@@ -6,6 +6,7 @@ const getEvents = async (req, res) => {
 
     let userId
     let teacherId
+    let eventsWithUser
 
     if (req.query.user_id) {
         userId = req.query.user_id
@@ -21,7 +22,14 @@ const getEvents = async (req, res) => {
         if (events.length <= 0) {
             return res.status(204).send()
         }
-        return res.status(200).json({ data: events })
+        if (teacherId) {
+            eventsWithUser = await Promise.all(events.map(async event => {
+                return await event.getData()
+            }))
+            return res.status(200).json({ data: eventsWithUser })
+        } else {
+            return res.status(200).json({ data: events })
+        }
 
     } catch (error) {
         console.error("Error in getEvents:", error)
