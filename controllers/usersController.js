@@ -96,8 +96,6 @@ const user = (req, res) => {
 const updatePassword = async (req, res) => {
   const { currentPassword, newPassword, userId } = req.body.formatedData;
 
-  console.log(currentPassword, newPassword, userId);
-
   if (!currentPassword || !newPassword || !userId) {
     return res.status(400).json({
       error: "User id, current password, and new password are required",
@@ -140,29 +138,31 @@ const updatePassword = async (req, res) => {
     return res.status(500).json({ error: "Internal server error" });
   }
 };
-
 const getCurrentStudents = async (req, res) => {
-  const teacher_id = req.query.teacher_id;
+  const { teacher_id, offset = 0, limit = 10 } = req.query;
 
   if (!teacher_id) {
     return res.status(400).json({ error: "teacher_id is required" });
   }
 
   try {
-    const currentStudents = await User.findAll({
+    const { count, rows: currentStudents } = await User.findAndCountAll({
       where: {
         teacher_id: teacher_id,
       },
+      limit: parseInt(limit),
+      offset: parseInt(offset),
     });
 
-    if (currentStudents.length > 0) {
-      return res.status(200).json({ data: currentStudents });
-    }
+    return res.status(200).json({
+      data: currentStudents,
+      totalItems: count,
+    });
   } catch (error) {
     console.error("Error in getCurrentStudents:", error);
-    return res
-      .status(500)
-      .json({ error: "Erreur lors de la récupération des currentStudents." });
+    return res.status(500).json({
+      error: "Erreur lors de la récupération des currentStudents.",
+    });
   }
 };
 
