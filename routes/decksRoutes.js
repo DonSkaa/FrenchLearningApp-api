@@ -1,11 +1,13 @@
-const express = require('express')
-const router = express.Router()
-const userAuth = require('../middlewares/userAuth')
+const express = require("express");
+const router = express.Router();
+const userAuth = require("../middlewares/userAuth");
 
 const {
-    getDecksByIds
-} = require('../controllers/decksController')
+  getAllDecks,
+  // getDecksByIds
+} = require("../controllers/decksController");
 
-router.get('/api/decks', getDecksByIds)
+router.get("/api/decks", getAllDecks);
+// router.get('/api/decks', getDecksByIds)
 
-module.exports = router
+module.exports = router;

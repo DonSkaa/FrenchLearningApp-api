@@ -21,7 +21,10 @@ const signup = async (req, res) => {
         expiresIn: 1 * 24 * 60 * 60 * 1000,
       });
 
-      res.cookie("jwt", token, { maxAge: 1 * 24 * 60 * 60, httpOnly: true });
+      res.cookie("jwt", token, {
+        maxAge: 365 * 24 * 60 * 60 * 1000,
+        httpOnly: true,
+      });
 
       const formatedUser = {
         id: user.id,
@@ -62,7 +65,10 @@ const login = async (req, res) => {
         const expiresInMilliseconds = 1 * 24 * 60 * 60 * 1000;
         const expirationTimestamp = now.getTime() + expiresInMilliseconds;
 
-        res.cookie("jwt", token, { maxAge: 1 * 24 * 60 * 60, httpOnly: true });
+        res.cookie("jwt", token, {
+          maxAge: 365 * 24 * 60 * 60 * 1000,
+          httpOnly: true,
+        });
 
         const userDataWithMeta = await user.getData();
 
