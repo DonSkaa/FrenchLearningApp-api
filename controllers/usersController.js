@@ -6,25 +6,51 @@ const User = db.User;
 
 const signup = async (req, res) => {
   try {
-    const { name, type, email, password, teacher_id } = req.body;
+    const {
+      name,
+      type,
+      program_duration,
+      email,
+      password,
+      teacher_id,
+      timezone,
+    } = req.body;
     const data = {
       name,
       type,
+      program_duration,
       email,
       password: await bcrypt.hash(password, 10),
       teacher_id: type === "teacher" ? null : teacher_id,
     };
+
     const user = await User.create(data);
 
-    if (user) {
-      const token = jwt.sign({ id: user.id }, process.env.SECRET_KEY, {
-        expiresIn: 1 * 24 * 60 * 60 * 1000,
-      });
+    // if (user.type === "student") {
+    //   const userPrograms = await db.UserPrograms.create({
+    //     user_id: user.id,
+    //     program_id: user.program_duration === "4" ? 1 : 2,
+    //   });
 
-      res.cookie("jwt", token, {
-        maxAge: 365 * 24 * 60 * 60 * 1000,
-        httpOnly: true,
-      });
+    //   user.user_programs_id = userPrograms.id;
+    //   await user.save();
+    // }
+
+    if (user) {
+      if (!user.type) {
+        const token = jwt.sign(
+          { id: user.id, timezone },
+          process.env.SECRET_KEY,
+          {
+            expiresIn: 2 * 24 * 60 * 60 * 1000,
+          }
+        );
+
+        res.cookie("jwt", token, {
+          maxAge: 2 * 60 * 60 * 1000,
+          httpOnly: true,
+        });
+      }
 
       const formatedUser = {
         id: user.id,
@@ -45,7 +71,7 @@ const signup = async (req, res) => {
 
 const login = async (req, res) => {
   try {
-    const { email, password } = req.body;
+    const { email, password, timezone } = req.body;
 
     const user = await User.findOne({
       where: {
@@ -57,16 +83,20 @@ const login = async (req, res) => {
       const isSame = await bcrypt.compare(password, user.password);
 
       if (isSame) {
-        const token = jwt.sign({ id: user.id }, process.env.SECRET_KEY, {
-          expiresIn: 1 * 24 * 60 * 60 * 1000,
-        });
+        const token = jwt.sign(
+          { id: user.id, timezone },
+          process.env.SECRET_KEY,
+          {
+            expiresIn: 2 * 60 * 60 * 1000,
+          }
+        );
 
         const now = new Date(Date.now());
         const expiresInMilliseconds = 1 * 24 * 60 * 60 * 1000;
         const expirationTimestamp = now.getTime() + expiresInMilliseconds;
 
         res.cookie("jwt", token, {
-          maxAge: 365 * 24 * 60 * 60 * 1000,
+          maxAge: 2 * 60 * 60 * 1000,
           httpOnly: true,
         });
 
@@ -95,8 +125,23 @@ const user = (req, res) => {
   if (!user) {
     return res.status(401).send("Unauthorized");
   } else {
-    return res.send(user);
+    const formatedUser = {
+      id: user.id,
+      type: user.type,
+      email: user.email,
+      name: user.name,
+      user_programs_id: user.user_programs_id,
+      teacher_id: user.teacher_id,
+      createdAt: user.createdAt,
+      updatedAt: user.updatedAt,
+    };
+    return res.send(formatedUser);
   }
+};
+
+const logout = (req, res) => {
+  res.cookie("jwt", "", { maxAge: 1 });
+  return res.status(200).send({ message: "Déconnexion réussie" });
 };
 
 const updatePassword = async (req, res) => {
@@ -176,6 +221,7 @@ module.exports = {
   signup,
   login,
   user,
+  logout,
   updatePassword,
   getCurrentStudents,
 };

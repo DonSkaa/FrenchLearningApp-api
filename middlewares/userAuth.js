@@ -30,9 +30,6 @@ const saveUser = async (req, res, next) => {
 };
 
 const authenticateToken = (req, res, next) => {
-  console.log("req.cookies", req.cookies);
-  console.log("req.cookies.jwt", req.cookies.jwt);
-
   const token = req.cookies.jwt;
 
   if (!token) {
@@ -41,7 +38,6 @@ const authenticateToken = (req, res, next) => {
   }
 
   jwt.verify(token, process.env.SECRET_KEY, (err, decoded) => {
-    console.log(decoded);
     if (err) {
       console.log("err", err);
       return res.status(403).send({ message: "Token is invalid" });
