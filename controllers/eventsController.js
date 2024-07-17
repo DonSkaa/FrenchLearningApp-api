@@ -80,7 +80,6 @@ const addEvent = async (req, res) => {
       teacher_id,
       meeting_link,
       title: event_type === "Simulation" ? "Mise en situation" : "Conversation",
-      notified: 0,
     };
 
     const event = await Event.create(data);

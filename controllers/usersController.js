@@ -7,7 +7,10 @@ const User = db.User;
 const signup = async (req, res) => {
   try {
     const {
+      username,
       name,
+      last_name,
+      date_of_birth,
       type,
       program_duration,
       email,
@@ -16,7 +19,10 @@ const signup = async (req, res) => {
       timezone,
     } = req.body;
     const data = {
+      username,
       name,
+      last_name,
+      date_of_birth,
       type,
       program_duration,
       email,
@@ -56,7 +62,10 @@ const signup = async (req, res) => {
         id: user.id,
         type: user.type,
         email: user.email,
+        username: user.username,
         name: user.name,
+        last_name: user.last_name,
+        date_of_birth: user.date_of_birth,
         user_programs_id: user.user_programs_id,
         teacher_id: user.teacher_id,
       };
@@ -129,7 +138,10 @@ const user = (req, res) => {
       id: user.id,
       type: user.type,
       email: user.email,
+      username: user.username,
       name: user.name,
+      last_name: user.last_name,
+      date_of_birth: user.date_of_birth,
       user_programs_id: user.user_programs_id,
       teacher_id: user.teacher_id,
       createdAt: user.createdAt,

@@ -35,10 +35,6 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.INTEGER,
         allowNull: false,
       },
-      notified: {
-        type: DataTypes.BOOLEAN,
-        allowNull: false,
-      },
     },
     {
       tableName: "events",
