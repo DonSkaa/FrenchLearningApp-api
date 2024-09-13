@@ -1,7 +1,7 @@
 const bcrypt = require("bcrypt");
 const db = require("../models");
 const jwt = require("jsonwebtoken");
-const { escapeHTML } = require("../utils");
+const { escapeHTML, verifyCaptcha } = require("../utils");
 
 const User = db.User;
 
@@ -18,6 +18,7 @@ const signup = async (req, res) => {
       password,
       teacher_id,
       timezone,
+      captchaToken,
     } = req.body;
     const data = {
       username,
@@ -30,6 +31,14 @@ const signup = async (req, res) => {
       password: await bcrypt.hash(password, 10),
       teacher_id: type === "teacher" ? null : teacher_id,
     };
+
+    const captchaVerified = await verifyCaptcha(captchaToken, "signup");
+
+    if (!captchaVerified) {
+      return res
+        .status(400)
+        .json({ message: "Échec de la validation reCAPTCHA." });
+    }
 
     const user = await User.create(data);
 
@@ -81,7 +90,15 @@ const signup = async (req, res) => {
 
 const login = async (req, res) => {
   try {
-    const { email, password, timezone } = req.body;
+    const { email, password, timezone, captchaToken } = req.body;
+
+    const captchaVerified = await verifyCaptcha(captchaToken, "login");
+
+    if (!captchaVerified) {
+      return res
+        .status(400)
+        .json({ message: "Échec de la validation reCAPTCHA." });
+    }
 
     const user = await User.findOne({
       where: {

@@ -6,7 +6,7 @@ const saveUser = async (req, res, next) => {
   try {
     const username = await User.findOne({
       where: {
-        name: req.body.name,
+        username: req.body.username,
       },
     });
     if (username) {
