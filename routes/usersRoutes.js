@@ -1,4 +1,3 @@
-//importing modules
 const express = require("express");
 const userController = require("../controllers/usersController");
 const { signup, login, user, logout, getCurrentStudents, updatePassword } =
