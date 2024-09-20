@@ -1,7 +1,7 @@
 const bcrypt = require("bcrypt");
 const db = require("../models");
 const jwt = require("jsonwebtoken");
-const { escapeHTML, verifyCaptcha } = require("../utils");
+const { verifyCaptcha } = require("../utils");
 
 const User = db.User;
 
@@ -154,11 +154,11 @@ const user = (req, res) => {
   } else {
     const formatedUser = {
       id: user.id,
-      type: escapeHTML(user.type),
-      email: escapeHTML(user.email),
-      username: escapeHTML(user.username),
-      name: escapeHTML(user.name),
-      last_name: escapeHTML(user.last_name),
+      type: user.type,
+      email: user.email,
+      username: user.username,
+      name: user.name,
+      last_name: user.last_name,
       date_of_birth: user.date_of_birth,
       user_programs_id: user.user_programs_id,
       teacher_id: user.teacher_id,
